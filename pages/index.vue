@@ -9,5 +9,5 @@ definePageMeta({
 </script>
 
 <template>
-  <NuxtLink to="/auth"> Go to Auth </NuxtLink>
+  <NuxtLink to="/auth?tab=login"> Go to Auth </NuxtLink>
 </template>

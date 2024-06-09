@@ -16,7 +16,7 @@ if (
   !route.query.tab ||
   !Object.values(tabs).includes(route.query.tab as string)
 ) {
-  await navigateTo({ path: "/auth", query: { tab: "login" } });
+  navigateTo({ path: "/auth", query: { tab: "login" } });
 }
 
 const onTabChange = (tab: unknown) => {
