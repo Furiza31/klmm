@@ -1,9 +1,20 @@
 <script setup lang="ts">
-import { LogOut, Menu, SquareCheckBig } from "lucide-vue-next";
+import { adventurer } from "@dicebear/collection";
+import { createAvatar } from "@dicebear/core";
+import { LoaderCircle, LogOut, Menu, SquareCheckBig } from "lucide-vue-next";
 const { signOut } = useAuth();
+const signOutLoading = ref(false);
+const { data } = useAuth();
+const avatar =
+  data.value?.user?.image ||
+  (await createAvatar(adventurer, {
+    seed: data.value!.user!.email as string,
+  }).toDataUri());
 
 const handleSignOut = async () => {
+  signOutLoading.value = true;
   await signOut({ callbackUrl: "/auth" });
+  signOutLoading.value = false;
 };
 </script>
 
@@ -19,7 +30,17 @@ const handleSignOut = async () => {
     >
       <div class="w-full">
         <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
+          <SheetTitle class="flex flex-row items-center justify-start gap-2">
+            <NuxtLink to="/app/account">
+              <Button
+                variant="ghost"
+                class="rounded-full flex flex-col items-center justify-center w-fit h-fit p-0"
+              >
+                <NuxtImg :src="avatar" class="rounded-full size-10" />
+              </Button>
+            </NuxtLink>
+            <span>Menu</span>
+          </SheetTitle>
           <SheetDescription> Where are we going ? </SheetDescription>
         </SheetHeader>
 
@@ -37,7 +58,9 @@ const handleSignOut = async () => {
           class="flex flex-row items-center justify-start w-full"
           variant="destructive"
         >
-          <LogOut /> <span class="w-5/6 text-center"> Logout </span>
+          <LogOut v-if="!signOutLoading" />
+          <LoaderCircle v-else class="animate-spin" />
+          <span class="w-5/6 text-center"> Logout </span>
         </Button>
       </SheetFooter>
     </SheetContent>
