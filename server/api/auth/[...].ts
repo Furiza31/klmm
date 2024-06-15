@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient, User } from "@prisma/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 const runtimeConfig = useRuntimeConfig();
 const prisma = new PrismaClient();
@@ -57,6 +58,12 @@ export default NuxtAuthHandler({
       name: "github",
       clientId: runtimeConfig.github.clientId,
       clientSecret: runtimeConfig.github.clientSecret,
+    }),
+    // @ts-expect-error
+    GoogleProvider.default({
+      name: "google",
+      clientId: runtimeConfig.google.clientId,
+      clientSecret: runtimeConfig.google.clientSecret,
     }),
     // @ts-expect-error
     CredentialsProvider.default({

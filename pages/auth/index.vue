@@ -51,7 +51,10 @@ const onTabChange = (tab: unknown) => {
           <CardFooter>
             <div class="w-full flex flex-col items-center justify-center gap-2">
               <p>Or Sign Up Using</p>
-              <AuthGithubLogin />
+              <div class="flex flex-row items-center justify-center gap-2">
+                <AuthGithubLogin />
+                <AuthGoogleLogin />
+              </div>
             </div>
           </CardFooter>
         </Card>
