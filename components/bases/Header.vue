@@ -14,7 +14,7 @@ defineProps({
 
 <template>
   <header
-    class="flex flew-row flex-nowrap w-screen px-2 py-3 box-border justify-between items-center relative z-50"
+    class="flex flew-row flex-nowrap w-screen px-2 py-3 box-border justify-between items-center relative z-50 h-16"
   >
     <div>
       <div class="px-4 py-2">
@@ -25,7 +25,7 @@ defineProps({
       </div>
     </div>
     <div>
-      <h1>{{ title }}</h1>
+      <h1 class="text-primary font-bold text-lg font-cherry">{{ title }}</h1>
     </div>
     <div>
       <BasesNavigation />

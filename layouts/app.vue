@@ -13,7 +13,7 @@ defineProps({
 
 <template>
   <BasesHeader :title="title" :backUrl="backUrl" />
-  <section>
+  <section class="min-h-[calc(100vh-4rem)] w-screen box-border">
     <slot />
   </section>
 </template>

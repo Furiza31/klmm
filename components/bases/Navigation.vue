@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { adventurer } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
-import { LoaderCircle, LogOut, Menu, SquareCheckBig } from "lucide-vue-next";
+import {
+  Home,
+  LoaderCircle,
+  LogOut,
+  Menu,
+  SquareCheckBig,
+} from "lucide-vue-next";
 const { signOut } = useAuth();
 const signOutLoading = ref(false);
 const { data } = useAuth();
@@ -39,15 +45,28 @@ const handleSignOut = async () => {
                 <NuxtImg :src="avatar" class="rounded-full size-10" />
               </Button>
             </NuxtLink>
-            <span>Menu</span>
+            <span class="font-cherry">Menu</span>
           </SheetTitle>
           <SheetDescription> Where are we going ? </SheetDescription>
         </SheetHeader>
 
-        <div class="mt-3 w-full">
-          <NuxtLink to="/app/tasks">
-            <Button class="flex flex-row items-center justify-start w-full">
-              <SquareCheckBig /> <span class="w-5/6 text-center"> Tasks </span>
+        <div class="mt-2 w-full">
+          <NuxtLink to="/app" active-class="group active">
+            <Button
+              class="flex flex-row items-center justify-start w-full px-2 py-1 h-9 bg-secondary-foreground group-[.active]:bg-primary"
+            >
+              <Home class="size-5" />
+              <span class="w-5/6 text-center font-cherry"> Home </span>
+            </Button>
+          </NuxtLink>
+        </div>
+        <div class="mt-2 w-full">
+          <NuxtLink to="/app/tasks" active-class="group active">
+            <Button
+              class="flex flex-row items-center justify-start w-full px-2 py-1 h-9 bg-secondary-foreground group-[.active]:bg-primary"
+            >
+              <SquareCheckBig class="size-5" />
+              <span class="w-5/6 text-center font-cherry"> Tasks </span>
             </Button>
           </NuxtLink>
         </div>
@@ -55,12 +74,12 @@ const handleSignOut = async () => {
       <SheetFooter class="w-full">
         <Button
           @click="handleSignOut"
-          class="flex flex-row items-center justify-start w-full"
+          class="flex flex-row items-center justify-start w-full px-2 py-1 h-9"
           variant="destructive"
         >
           <LogOut v-if="!signOutLoading" />
           <LoaderCircle v-else class="animate-spin" />
-          <span class="w-5/6 text-center"> Logout </span>
+          <span class="w-5/6 text-center font-cherry"> Logout </span>
         </Button>
       </SheetFooter>
     </SheetContent>
