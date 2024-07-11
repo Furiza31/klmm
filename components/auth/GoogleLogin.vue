@@ -16,6 +16,7 @@ const handleSignInWithGoogle = async () => {
       @click="handleSignInWithGoogle"
       variant="ghost"
       class="rounded-full"
+      :disabled="loading"
     >
       <NuxtImg
         src="/images/icons/google.svg"

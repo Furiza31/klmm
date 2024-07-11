@@ -49,6 +49,7 @@ export default NuxtAuthHandler({
         body: { user: User };
       };
       (session as any).language = body.user.language;
+      (session as any).userId = body.user.id;
       return Promise.resolve(session);
     },
   },

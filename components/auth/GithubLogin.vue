@@ -16,6 +16,7 @@ const handleSignInWithGitHub = async () => {
       @click="handleSignInWithGitHub"
       variant="ghost"
       class="rounded-full"
+      :disabled="loading"
     >
       <Github v-if="!loading" />
       <LoaderCircle class="animate-spin" v-else />

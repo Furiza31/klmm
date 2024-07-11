@@ -4,12 +4,12 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --open",
+    "dev": "nuxt dev --open --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:migrate:dev": "prisma migrate dev",
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
@@ -18,7 +18,7 @@
     "@dicebear/core": "^8.0.2",
     "@formkit/auto-animate": "^0.8.2",
     "@nuxt/image": "^1.7.0",
-    "@prisma/client": "^5.15.0",
+    "@prisma/client": "^5.16.2",
     "@sidebase/nuxt-auth": "^0.7.2",
     "@types/bcryptjs": "^2.4.6",
     "@vee-validate/zod": "^4.13.1",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
-    "prisma": "^5.15.0",
+    "prisma": "^5.16.2",
     "typescript": "^5.4.5"
   }
 }

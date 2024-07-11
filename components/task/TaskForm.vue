@@ -8,29 +8,57 @@ import {
 import {
   Calendar as CalendarIcon,
   Clock,
+  LoaderCircle,
   Plus,
   Text,
   X,
 } from "lucide-vue-next";
 import { toDate } from "radix-vue/date";
 import { useForm } from "vee-validate";
+import { toast } from "vue-sonner";
 import { taskSchema } from "~/schema/TaskSchema";
 const isDetailsOpen = ref(false);
 const isDatePopoverOpen = ref(false);
 const isTimeOpen = ref(false);
+const isDrawerOpen = ref(false);
+const loading = ref(false);
+const nameInput = ref<{ inputRef: HTMLInputElement }>();
+const user = useAuth();
 
+const emits = defineEmits(["create"]);
+const props = defineProps<{
+  groupId: number | undefined;
+}>();
 const { handleSubmit, setValues, setFieldValue, values } = useForm({
   validationSchema: taskSchema,
 });
 
 const onSubmit = handleSubmit(async (values) => {
-  console.log(values);
+  loading.value = true;
+  const response = await $fetch("/api/app/tasks/create", {
+    method: "POST",
+    body: values,
+  });
+  if (response.status !== 200) {
+    loading.value = false;
+    toast.error(response.body.message);
+    return;
+  }
+  emits("create", response.body.data);
+  toast.success(response.body.message);
+  isDrawerOpen.value = false;
+  loading.value = false;
 });
 
-const drawerOpenListener = (state: boolean) => {
+const drawerOpenListener = async (state: boolean) => {
+  isDrawerOpen.value = state;
   if (state) {
-    setValues({ name: "", group: 0, dueDate: undefined, details: "" });
+    setValues({ name: "", groupId: props.groupId });
     isDetailsOpen.value = false;
+    isDatePopoverOpen.value = false;
+    isTimeOpen.value = false;
+    await nextTick();
+    nameInput.value!.inputRef.focus();
   }
 };
 
@@ -43,15 +71,18 @@ const clearDueDate = () => {
   setFieldValue("dueDate", undefined);
 };
 
-const df = new DateFormatter("fr-FR", {
-  dateStyle: "long",
-});
+const df = new DateFormatter(
+  (user.data.value as unknown as { language: string }).language,
+  {
+    dateStyle: "long",
+  }
+);
 </script>
 
 <template>
-  <Drawer @update:open="drawerOpenListener">
+  <Drawer @update:open="drawerOpenListener" :open="isDrawerOpen">
     <DrawerTrigger
-      class="rounded-lg size-10 bg-primary flex felx-row items-center justify-center absolute bottom-4 right-4"
+      class="rounded-lg size-10 bg-primary flex flex-row items-center justify-center absolute bottom-4 right-4"
     >
       <Plus class="size-6 text-primary-foreground" />
     </DrawerTrigger>
@@ -67,6 +98,7 @@ const df = new DateFormatter("fr-FR", {
                   type="text"
                   placeholder="Task name"
                   v-bind="componentField"
+                  ref="nameInput"
                 />
               </FormControl>
             </FormItem>
@@ -97,19 +129,19 @@ const df = new DateFormatter("fr-FR", {
               </FormControl>
             </FormItem>
           </FormField>
-          <FormField name="group" v-if="dueDateValue">
-            <FormItem>
-              <FormControl>
-                <Badge class="flex flex-row items-center gap-2 w-fit"
-                  >{{ df.format(toDate(dueDateValue)) }}
-                  <Button @click="clearDueDate" class="p-0 h-fit"
-                    ><X class="size-5"
-                  /></Button>
-                </Badge>
-              </FormControl>
-            </FormItem>
-          </FormField>
-          <FormField v-slot="{ componentField }" name="dueDate">
+          <div v-if="dueDateValue">
+            <Badge class="flex flex-row items-center gap-2 w-fit"
+              >{{ df.format(toDate(dueDateValue)) }}
+              <Button @click.stop="clearDueDate" class="p-0 h-fit"
+                ><X class="size-5"
+              /></Button>
+            </Badge>
+          </div>
+          <FormField
+            v-slot="{ componentField }"
+            name="dueDate"
+            v-if="dueDateValue"
+          >
             <FormItem>
               <FormControl>
                 <Input type="hidden" v-bind="componentField" />
@@ -133,7 +165,6 @@ const df = new DateFormatter("fr-FR", {
               <PopoverContent class="w-auto p-0">
                 <Calendar
                   calendar-label="Date of birth"
-                  initial-focus
                   v-model="dueDateValue"
                   :min-value="today(getLocalTimeZone())"
                   @update:model-value="
@@ -161,7 +192,10 @@ const df = new DateFormatter("fr-FR", {
           </div>
         </DrawerHeader>
         <DrawerFooter>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" :disabled="loading">
+            <LoaderCircle v-if="loading" class="size-6 animate-spin" />
+            <span v-if="!loading"> Submit </span>
+          </Button>
         </DrawerFooter>
       </form>
     </DrawerContent>

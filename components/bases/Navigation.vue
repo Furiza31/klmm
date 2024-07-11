@@ -27,8 +27,8 @@ const handleSignOut = async () => {
 <template>
   <Sheet>
     <SheetTrigger as-child>
-      <Button variant="ghost" class="rounded-full">
-        <Menu class="size-8" />
+      <Button variant="ghost" class="mx-2" size="icon">
+        <Menu class="size-7" />
       </Button>
     </SheetTrigger>
     <SheetContent
@@ -76,6 +76,7 @@ const handleSignOut = async () => {
           @click="handleSignOut"
           class="flex flex-row items-center justify-start w-full px-2 py-1 h-9"
           variant="destructive"
+          :disabled="signOutLoading"
         >
           <LogOut v-if="!signOutLoading" />
           <LoaderCircle v-else class="animate-spin" />

@@ -13,7 +13,9 @@ defineProps({
 
 <template>
   <BasesHeader :title="title" :backUrl="backUrl" />
-  <section class="min-h-[calc(100vh-4rem)] w-screen box-border">
+  <section
+    class="h-[calc(100%_-_4rem)] w-screen box-border block overflow-y-auto overflow-x-hidden"
+  >
     <slot />
   </section>
 </template>

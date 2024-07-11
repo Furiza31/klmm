@@ -1,7 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  modules: ["@sidebase/nuxt-auth", "@nuxtjs/tailwindcss", "shadcn-nuxt", "@nuxt/image"],
+  devtools: { enabled: false },
+  modules: [
+    "@sidebase/nuxt-auth",
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
+    "@nuxt/image",
+  ],
   runtimeConfig: {
     apiKey: process.env.API_KEY,
     bcrypt: {

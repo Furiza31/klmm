@@ -14,12 +14,14 @@ defineProps({
 
 <template>
   <header
-    class="flex flew-row flex-nowrap w-screen px-2 py-3 box-border justify-between items-center relative z-50 h-16"
+    class="flex flew-row flex-nowrap w-screen px-2 py-3 box-border justify-between items-center z-50 h-16 sticky top-0 left-0 rounded-b-xl border"
   >
     <div>
-      <div class="px-4 py-2">
+      <div class="mx-0">
         <NuxtLink :to="backUrl" v-if="backUrl">
-          <ArrowLeft class="size-7" />
+          <Button variant="ghost" size="icon">
+            <ArrowLeft class="size-7" />
+          </Button>
         </NuxtLink>
         <div v-else class="size-7"></div>
       </div>

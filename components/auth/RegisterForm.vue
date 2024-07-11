@@ -94,7 +94,7 @@ const onSubmit = handleSubmit(async (values) => {
       </FormItem>
     </FormField>
     <div class="w-full flex flex-row items-center justify-center">
-      <Button type="submit" class="w-1/2 mt-3">
+      <Button type="submit" class="w-1/2 mt-3" :disabled="loading">
         <LoaderCircle v-if="loading" class="size-6 animate-spin" />
         <span v-if="!loading"> Let's Go! </span>
       </Button>
